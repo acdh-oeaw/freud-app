@@ -1,0 +1,2 @@
+Django==3.2
+freud-api-crawler==0.18

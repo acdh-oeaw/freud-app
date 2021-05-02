@@ -7,7 +7,7 @@ from django.core.management.base import BaseCommand
 from freud_api_crawler import freud_api_crawler as frd
 from freud_api_crawler.post_process import create_united_files
 
-from archiv.utils import get_or_create_werk
+from archiv.utils import get_or_create_werk, create_mans_from_folder
 
 
 class Command(BaseCommand):
@@ -18,6 +18,7 @@ class Command(BaseCommand):
         parser.add_argument('work_ids', nargs='+', type=str)
 
     def handle(self, *args, **kwargs):
+        out_dir = settings.MEDIA_ROOT
         auth_items = frd.get_auth_items(settings.FRD_USER, settings.FRD_PW)
         for w in kwargs['work_ids']:
             werk_obj = frd.FrdWerk(
@@ -28,7 +29,7 @@ class Command(BaseCommand):
             for x in rel_manifestations:
                 try:
                     frd_man = frd.FrdManifestation(
-                        out_dir=settings.MEDIA_ROOT,
+                        out_dir=out_dir,
                         manifestation_id=x['man_id'],
                         auth_items=auth_items
                     )
@@ -40,9 +41,10 @@ class Command(BaseCommand):
                             fg='red'
                         )
                     )
+            werk_count = werk_obj.manifestations_count
             click.echo(
                 click.style(
-                    f"finished download\n{werk_obj.manifestations_count} Manifestations for {werk_obj.md__title} into {settings.MEDIA_ROOT}",
+                    f"finished download\n{werk_count} Manifestations for {werk_obj.md__title} into {out_dir}",
                     fg='green'
                 )
             )
@@ -57,3 +59,4 @@ class Command(BaseCommand):
                     fg='green'
                 )
             )
+            create_mans_from_folder(merged[0], frd_werk)

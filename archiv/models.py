@@ -11,6 +11,11 @@ class FrdWork(models.Model):
         unique=True,
     )
     drupal_json = models.JSONField(blank=True, null=True)
+    save_path = models.CharField(
+        max_length=550,
+        unique=True,
+        blank=True, null=True
+    )
 
     def __str__(self):
         return self.title_slug
@@ -28,6 +33,11 @@ class FrdManifestation(models.Model):
     drupal_json = models.JSONField(blank=True, null=True)
     work = models.ForeignKey(FrdWork, on_delete=models.CASCADE)
     tei_doc = models.TextField(blank=True, null=True)
+    save_path = models.CharField(
+        max_length=550,
+        unique=True,
+        blank=True, null=True
+    )
 
     def __str__(self):
         return self.title_slug

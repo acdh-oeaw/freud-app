@@ -1,7 +1,6 @@
 import glob
 from pathlib import Path
 
-from django.conf import settings
 from archiv.models import FrdWork, FrdManifestation
 
 from acdh_tei_pyutils.tei import TeiReader

@@ -41,3 +41,16 @@ class FrdManifestation(models.Model):
 
     def __str__(self):
         return self.title_slug
+
+
+class FrdCollation(models.Model):
+    work = models.ForeignKey(FrdWork, on_delete=models.CASCADE)
+    manifestation = models.ManyToManyField(
+        FrdManifestation
+    )
+    collation_html = models.TextField(blank=True, null=True)
+    collation_tei = models.TextField(blank=True, null=True)
+    collation_json = models.JSONField(blank=True, null=True)
+
+    def __str__(self):
+        return self.work.title_slug

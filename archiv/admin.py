@@ -1,6 +1,17 @@
 from django.contrib import admin
 
-from archiv.models import FrdWork, FrdManifestation
+from archiv.models import FrdWork, FrdManifestation, FrdCollation
+
+
+@admin.register(FrdCollation)
+class FrdCollation(admin.ModelAdmin):
+    list_display = (
+        'work',
+    )
+    list_filter = (
+        'work',
+        'manifestation'
+    )
 
 
 @admin.register(FrdWork)

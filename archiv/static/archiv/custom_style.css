@@ -1,0 +1,17 @@
+.grid-item { 
+    width: 30%; 
+    padding: 3%;
+    margin: 1%;
+    border-radius: 5px;
+    text-align: center;
+    background-color: #a22a02;
+    color:beige
+}
+.grid-item:hover {
+    background-color: #F2C078;
+    color: black;
+  }
+
+.navbar {
+    border-bottom: 5px solid #a22a02 !important;
+}

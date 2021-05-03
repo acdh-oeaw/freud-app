@@ -1,0 +1,35 @@
+{% extends "archiv/base.html" %}
+{% block scriptheader %}
+<script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
+{% endblock scriptheader %}
+{% block content %}
+{% if imprint_body %}
+{{ imprint_body|safe }}
+{% else %}
+<div class="wrapper" id="wrapper-hero">
+  <!-- ******************* The Hero Area ******************* -->
+  <div class="wrapper" id="wrapper-hero-content">
+    <div class="container hero-dark" id="wrapper-hero-inner" tabindex="-1">
+      <h1>FRD-APP</h1>
+      <p>FRD-APP is a django-based web application for the administration of several processing needed to create XML/TEI documents from data stored in <a href="https://www.freud-edition.net">freud-edition.net</a></p>
+    </div>
+  </div>
+  <!-- #wrapper-hero-content -->
+</div>
+<div class="wrapper" id="index-wrapper">
+  <div class="container" id="content" tabindex="-1">
+    <div class="grid" data-isotope='{ "itemSelector": ".grid-item", "layoutMode": "fitRows", "percentPosition": "true"}'>
+      {% for x in works %}
+      <div class="grid-item">
+        <h3>{{ x }}</h3>
+        <h4>{{ x.frdmanifestation_set.all|length }} Manifestationen</h4>
+      </div>
+      {% endfor %}
+    </div>
+    <!-- .row -->
+  </div>
+  <!-- Container end -->
+</div>
+{% endif %}
+<!-- Wrapper end -->
+{% endblock %}

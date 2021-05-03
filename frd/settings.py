@@ -155,3 +155,4 @@ MEDIA_URL = '/media/'
 
 FRD_USER = os.environ.get('FRD_USER')
 FRD_PW = os.environ.get('FRD_PW')
+FRD_WORK_LIST = "https://www.freud-edition.net/jsonapi/node/werk?filter[field_status_umschrift]=1"

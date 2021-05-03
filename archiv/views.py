@@ -1,7 +1,14 @@
 import requests
 from django.views.generic.base import TemplateView
+from django.views.generic.detail import DetailView
 
 from archiv.models import FrdWork
+
+
+class WorkDetailView(DetailView):
+
+    model = FrdWork
+    template_name = 'archiv/work_detail.html'
 
 
 class HomePageView(TemplateView):

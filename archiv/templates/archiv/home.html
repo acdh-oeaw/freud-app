@@ -21,8 +21,10 @@
     <div class="grid" data-isotope='{ "itemSelector": ".grid-item", "layoutMode": "masonry", "percentPosition": "true"}'>
       {% for x in works %}
       <div class="grid-item">
-        <h3>{{ x }}</h3>
-        <h4>{{ x.frdmanifestation_set.all|length }} Manifestationen</h4>
+          <h3>{{ x }}</h3>
+          <a href="{% url 'work_detail' pk=x.id %}">
+          <h4>{{ x.frdmanifestation_set.all|length }} Manifestationen</h4>
+        </a>
       </div>
       {% endfor %}
     </div>

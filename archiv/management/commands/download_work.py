@@ -7,6 +7,7 @@ from django.core.management.base import BaseCommand
 from freud_api_crawler import freud_api_crawler as frd
 from freud_api_crawler.post_process import create_united_files
 
+from archiv.models import FrdWork
 from archiv.utils import get_or_create_werk, create_mans_from_folder
 
 
@@ -20,7 +21,12 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         out_dir = settings.MEDIA_ROOT
         auth_items = frd.get_auth_items(settings.FRD_USER, settings.FRD_PW)
-        for w in kwargs['work_ids']:
+        if "all" in kwargs['work_ids']:
+            ids = [x.drupal_hash for x in FrdWork.objects.all()]
+        else:
+            ids = kwargs['work_ids']
+        print(ids)
+        for w in ids:
             werk_obj = frd.FrdWerk(
                 auth_items=auth_items, werk_id=w
             )

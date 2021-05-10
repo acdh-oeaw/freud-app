@@ -5,6 +5,10 @@
 <div class="wrapper" id="index-wrapper">
   <div class="container" id="content" tabindex="-1">
     <h1>{{ object }}</h1>
+    <h2>Collationen</h2>
+    {% for x in object.frdcollation_set.all %}
+    <li><a href="{{ x.get_absolute_url }}">{{ x }}</a></li>
+    {% endfor %}
   </div>
   <!-- Container end -->
 </div>

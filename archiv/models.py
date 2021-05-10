@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 
 class FrdWork(models.Model):
@@ -19,6 +20,9 @@ class FrdWork(models.Model):
 
     def __str__(self):
         return self.title_slug
+
+    def get_absolute_url(self):
+        return reverse('work_detail', kwargs={'pk': self.id})
 
 
 class FrdManifestation(models.Model):
@@ -51,6 +55,9 @@ class FrdCollation(models.Model):
 
     def __str__(self):
         return self.work.title_slug
+
+    def get_absolute_url(self):
+        return reverse('collation_detail', kwargs={'pk': self.id})
 
     def files(self):
         return [x.save_path for x in self.manifestation.all()]

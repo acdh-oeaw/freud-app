@@ -22,8 +22,9 @@
       {% for x in works %}
       <div class="grid-item">
           <h3>{{ x }}</h3>
-          <a href="{% url 'work_detail' pk=x.id %}">
+          <a href="{{ x.get_absolute_url }}">
           <h4>{{ x.frdmanifestation_set.all|length }} Manifestationen</h4>
+          <h4>{{ x.frdcollation_set.all|length }} Collationen</h4>
         </a>
       </div>
       {% endfor %}

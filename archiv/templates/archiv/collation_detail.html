@@ -1,0 +1,22 @@
+{% extends "archiv/base.html" %}
+{% block scriptheader %}
+{% endblock scriptheader %}
+{% block content %}
+<div class="wrapper" id="index-wrapper">
+  <div class="container" id="content" tabindex="-1">
+    <h1><small><a href="{{ object.work.get_absolute_url }}">{{ object.work }}</a></small>Kollationen für Manifestation: </h1>
+    <ul>
+      {% for x in object.manifestation.all %}
+      <li>{{ x }}</li>
+      {% endfor %}
+    </ul>
+    {% for x in object.frdcollationsample_set.all %}
+    <div>
+      {{ x.data_html|safe }}
+    </div>
+    {% endfor %}
+  </div>
+  <!-- Container end -->
+</div>
+<!-- Wrapper end -->
+{% endblock %}

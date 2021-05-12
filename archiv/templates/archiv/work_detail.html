@@ -6,6 +6,7 @@
   <div class="container" id="content" tabindex="-1">
     <h1>{{ object }}</h1>
     <h2>Collationen</h2>
+      <a href="{% url 'collation_create' %}?work={{ object.id }}">[create new collation]</a>
     {% for x in object.frdcollation_set.all %}
     <li><a href="{{ x.get_absolute_url }}">{{ x }}</a></li>
     {% endfor %}

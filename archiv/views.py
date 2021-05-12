@@ -1,8 +1,12 @@
 import requests
 from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
+from django.views.generic.edit import CreateView
 
-from archiv.models import FrdWork, FrdCollation
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Submit
+
+from archiv.models import FrdManifestation, FrdWork, FrdCollation
 
 
 class WorkDetailView(DetailView):
@@ -15,6 +19,29 @@ class CollationDetailView(DetailView):
 
     model = FrdCollation
     template_name = 'archiv/collation_detail.html'
+
+
+class CollationCreateView(CreateView):
+
+    model = FrdCollation
+    fields = ['manifestation', 'work']
+    template_name = 'archiv/collation_create.html'
+
+    def get_initial(self):
+        initial = super(CollationCreateView, self).get_initial()
+        work_id = self.request.GET.get('work', None)
+        initial['work'] = work_id
+        initial['manifestation'] = [x.id for x in FrdManifestation.objects.filter(work=work_id)]
+        return initial
+
+    def get_form(self):
+        work_id = self.request.GET.get('work', None)
+        form = super(CollationCreateView, self).get_form()
+        form.fields['manifestation'].queryset = FrdManifestation.objects.filter(work=work_id)
+        form.fields['work'].disabled = True
+        form.helper = FormHelper()
+        form.helper.add_input(Submit('submit', 'Submit', css_class='btn-primary'))
+        return form
 
 
 class HomePageView(TemplateView):

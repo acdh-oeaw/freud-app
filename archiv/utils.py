@@ -1,6 +1,7 @@
 import glob
 import collatex
 from pathlib import Path
+import asyncio
 
 from acdh_tei_pyutils.tei import TeiReader
 from acdh_collatex_utils.acdh_collatex_utils import chunks_to_df
@@ -10,7 +11,8 @@ from collatex.core_functions import export_alignment_table_as_tei
 from archiv.models import FrdWork, FrdManifestation, FrdCollationSample
 
 
-def create_collations(col_obj):
+async def create_collations(col_obj):
+    await asyncio.sleep(2)
     df = chunks_to_df(col_obj.files())
     counter = 0
     for gr in df.groupby('chunk_nr'):

@@ -3,6 +3,10 @@
 FRD-APP is a django-based web application for the administration of several processing needed to create XML/TEI documents from data stored in https://www.freud-edition.net
 
 
+## async
+
+to use async-functionality run application with `uvicorn --reload frd.asgi:application`
+
 ## internal cheet-sheet
 
 ## create FrdWork objects 

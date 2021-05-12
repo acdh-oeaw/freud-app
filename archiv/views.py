@@ -1,4 +1,8 @@
 import requests
+import asyncio
+
+
+from django.http import HttpResponse
 from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView
@@ -7,6 +11,15 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 
 from archiv.models import FrdManifestation, FrdWork, FrdCollation
+from archiv.utils import create_collations
+
+
+async def collate_collation(request, pk):
+    col_obj = FrdCollation.objects.get(id=pk)
+    loop = asyncio.get_event_loop()
+    loop.create_task(create_collations(col_obj))
+    print("#########################")
+    return HttpResponse("Die Kollationen werden im Hintergrund erstellt!")
 
 
 class WorkDetailView(DetailView):

@@ -1,3 +1,5 @@
-Django==3.2
-freud-api-crawler==0.19
 acdh-collatex-utils==1.4.0
+Django==3.2
+django-crispy-forms==1.11.2
+freud-api-crawler==0.19
+uvicorn>=0.13

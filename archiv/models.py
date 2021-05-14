@@ -1,5 +1,10 @@
+import os
+import shutil
+from django.conf import settings
 from django.db import models
 from django.urls import reverse
+from django.db.models.signals import pre_delete
+from django.dispatch import receiver
 
 
 class FrdWork(models.Model):
@@ -23,6 +28,17 @@ class FrdWork(models.Model):
 
     def get_absolute_url(self):
         return reverse('work_detail', kwargs={'pk': self.id})
+
+    def get_absolute_save_path(self):
+        return os.path.join(settings.MEDIA_ROOT, 'werke', self.title_slug) 
+
+
+@receiver(pre_delete, sender=FrdWork)
+def delete_werk_folder(sender, instance, using, **kwargs):
+    try:
+        shutil.rmtree(instance.get_absolute_save_path())
+    except FileNotFoundError:
+        pass
 
 
 class FrdManifestation(models.Model):
@@ -54,7 +70,7 @@ class FrdCollation(models.Model):
     )
 
     def __str__(self):
-        return self.work.title_slug
+        return f"{self.work.title_slug} (ID: {self.id})"
 
     def get_absolute_url(self):
         return reverse('collation_detail', kwargs={'pk': self.id})

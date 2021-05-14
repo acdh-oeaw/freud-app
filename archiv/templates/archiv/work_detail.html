@@ -11,13 +11,27 @@
       </ol>
     </nav>
     <h1>{{ object }}</h1>
+    <h2>{{ object.get_absolute_save_path }}</h2>
+    <h2>Drupal-Data</h2>
+    <p>
+      <code>{{ object.drupal_json }}</code>
+    </p>
+    <hr />
     <h2>Manifestationen</h2>
+    <ul>
+      {% for x in object.frdmanifestation_set.all %}
+        <li>{{ x }}</li>
+      {% endfor %}
+    </ul>
     <a href="{% url 'import_manifestations' pk=object.id %}" class="btn btn-primary" href="#" role="button">[import/update manifestations]</a>
+    <hr />
     <h2>Collationen</h2>
       <a href="{% url 'collation_create' %}?work={{ object.id }}" class="btn btn-primary" href="#" role="button">[create new collation]</a>
-    {% for x in object.frdcollation_set.all %}
-    <li><a href="{{ x.get_absolute_url }}">{{ x }}</a></li>
-    {% endfor %}
+      <ul>
+        {% for x in object.frdcollation_set.all %}
+          <li><a href="{{ x.get_absolute_url }}">{{ x }}</a></li>
+        {% endfor %}
+      </ul>
   </div>
   <!-- Container end -->
 </div>

@@ -4,7 +4,15 @@
 {% block content %}
 <div class="wrapper" id="index-wrapper">
   <div class="container" id="content" tabindex="-1">
-    <h1><small><a href="{{ object.work.get_absolute_url }}">{{ object.work }}</a></small>Kollationen für Manifestation: </h1>
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'index' %}">Werke</a></li>
+        <li class="breadcrumb-item"><a href="{{ object.work.get_absolute_url }}">Werk: {{ object.work }}</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Collation: {{ object }}</li>
+      </ol>
+    </nav>
+    <h1>Kollation von: <a href="{{ object.work.get_absolute_url }}">{{ object.work }}</a></h1>
+    <h3><a href="{% url 'collate_collation' pk=object.id %}">collate</a></h3>
     <ul>
       {% for x in object.manifestation.all %}
       <li>{{ x }}</li>

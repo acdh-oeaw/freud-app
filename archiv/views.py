@@ -11,7 +11,7 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 
 from archiv.models import FrdManifestation, FrdWork, FrdCollation
-from archiv.utils import create_collations
+from archiv.utils import create_collations, import_work
 
 
 async def collate_collation(request, pk):
@@ -20,6 +20,14 @@ async def collate_collation(request, pk):
     loop.create_task(create_collations(col_obj))
     print("#########################")
     return HttpResponse("Die Kollationen werden im Hintergrund erstellt!")
+
+
+async def import_manifestations(request, pk):
+    item = FrdWork.objects.get(id=pk)
+    loop = asyncio.get_event_loop()
+    loop.create_task(import_work(item))
+    print("#########################")
+    return HttpResponse(f"Die Manifestationen für {item} werden im Hintergrund importiert!")
 
 
 class WorkDetailView(DetailView):

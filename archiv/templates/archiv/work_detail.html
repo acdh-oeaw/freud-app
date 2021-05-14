@@ -3,10 +3,18 @@
 {% endblock scriptheader %}
 {% block content %}
 <div class="wrapper" id="index-wrapper">
-  <div class="container" id="content" tabindex="-1">
+  <div class="container" id="content" tabindex="-1">   
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'index' %}">Werke</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Werk: {{ object }}</li>
+      </ol>
+    </nav>
     <h1>{{ object }}</h1>
+    <h2>Manifestationen</h2>
+    <a href="{% url 'import_manifestations' pk=object.id %}" class="btn btn-primary" href="#" role="button">[import/update manifestations]</a>
     <h2>Collationen</h2>
-      <a href="{% url 'collation_create' %}?work={{ object.id }}">[create new collation]</a>
+      <a href="{% url 'collation_create' %}?work={{ object.id }}" class="btn btn-primary" href="#" role="button">[create new collation]</a>
     {% for x in object.frdcollation_set.all %}
     <li><a href="{{ x.get_absolute_url }}">{{ x }}</a></li>
     {% endfor %}

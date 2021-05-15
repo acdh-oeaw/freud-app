@@ -1,5 +1,6 @@
 acdh-collatex-utils==1.4.0
 Django==3.2
 django-crispy-forms==1.11.2
+djangorestframework>=3.12.4
 freud-api-crawler==0.19
 uvicorn>=0.13

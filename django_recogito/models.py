@@ -13,3 +13,15 @@ class RecogitoAnnotation(models.Model):
 
     def __str__(self):
         return f"{self.re_text} ({self.re_id})"
+
+    def save(self, *args, **kwargs):
+        if self.re_payload:
+            data = self.re_payload
+            target = data['target']['selector']
+            for y in target:
+                if 'start' in y.keys():
+                    self.re_start = y['start']
+                    self.re_end = y['end']
+                else:
+                    self.re_text = y['exact']
+        super().save(*args, **kwargs)

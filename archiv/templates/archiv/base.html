@@ -11,7 +11,8 @@
     <link rel="profile" href="http://gmpg.org/xfn/11">
     <title>FRD-APP</title>
     <link rel="stylesheet" id="fundament-styles"  href="https://fundament.acdh.oeaw.ac.at/html/dist/fundament/css/fundament.min.css" type="text/css"/>
-    <link rel="stylesheet" type="text/css" href="{% static 'archiv/custom_style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'archiv/custom_style.css' %}" />
+    <link href="{% static 'archiv/prism.css' %}" rel="stylesheet"/>
     <!-- Matomo -->
     <!-- <script type="text/javascript">
       var _paq = window._paq = window._paq || [];
@@ -116,6 +117,9 @@
     <!-- #page we need this extra closing tag here -->
     <script type="text/javascript" src="https://fundament.acdh.oeaw.ac.at/html/dist/fundament/vendor/jquery/jquery.min.js"></script>
     <script type="text/javascript" src="https://fundament.acdh.oeaw.ac.at/html/dist/fundament/js/fundament.min.js"></script>
+    <script src="{% static 'archiv/prism.js' %}"></script>
+
+
     {% block scriptfooter %}
     {% endblock scriptfooter %}
   </body>

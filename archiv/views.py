@@ -36,6 +36,12 @@ class WorkDetailView(DetailView):
     template_name = 'archiv/work_detail.html'
 
 
+class ManifestationDetailView(DetailView):
+
+    model = FrdManifestation
+    template_name = 'archiv/manifestation_detail.html'
+
+
 class CollationDetailView(DetailView):
 
     model = FrdCollation

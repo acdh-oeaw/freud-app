@@ -1,4 +1,11 @@
 {% extends "archiv/base.html" %}
+{% load static %}
+{% block scriptheader %}
+<link href="{% static 'recogito/recogito.min.css' %}" rel="stylesheet">
+<script type="text/javascript" src="{% static 'recogito/recogito.min.js' %}"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+{% endblock scriptheader %}
 {% block content %}
 <div class="wrapper" id="index-wrapper">
   <div class="container" id="content" tabindex="-1">   
@@ -12,9 +19,12 @@
     <h1>{{ object.drupal_json.attributes.title }} <a href="https://www.freud-edition.net{{object.drupal_json.attributes.path.alias }}" target="_blank"><i data-feather="external-link"></i><a></h1>
     <hr />
     <h2>Manifestationen</h2>
+    <div>
+      <button id="toggle-mode">MODE: ANNOTATION</button>
+    </div>
     <p>
       <pre>
-        <code class="language-xml">
+        <code class="language-xml" id="annotationcontent">
           {{ object.tei_doc }}
         </code>
       </pre>
@@ -23,4 +33,50 @@
   <!-- Container end -->
 </div>
 <!-- Wrapper end -->
+<script type="text/javascript">
+  // An example annotation we'll add/remove via JavaScript
+  (function() {
+    // Intialize Recogito
+    var r = Recogito.init({
+      content: 'annotationcontent', // Element id or DOM node to attach to
+      locale: 'de',
+      mode: 'pre',
+      widgets: [
+        'COMMENT',
+        { widget: 'TAG', vocabulary: [ 'Place', 'Person', 'Event', 'Organization', 'Animal' ] }
+      ],
+      relationVocabulary: [ 'isRelated', 'isPartOf', 'isSameAs ']
+    });
+
+
+    r.on('selectAnnotation', function(a) {
+      console.log('selected', a);
+    });
+
+    r.on('createAnnotation', function(a) {
+      console.log('created', a);
+    });
+
+    r.on('updateAnnotation', function(annotation, previous) {
+      console.log('updated', previous, 'with', annotation);
+    });
+
+
+    // Switch annotation mode (annotation/relationships)
+    var annotationMode = 'ANNOTATION'; // or 'RELATIONS'
+
+    var toggleModeBtn = document.getElementById('toggle-mode');
+    toggleModeBtn.addEventListener('click', function() {
+      if (annotationMode === 'ANNOTATION') {
+        toggleModeBtn.innerHTML = 'MODE: RELATIONS';
+        annotationMode = 'RELATIONS';
+      } else  {
+        toggleModeBtn.innerHTML = 'MODE: ANNOTATION';
+        annotationMode = 'ANNOTATION';
+      }
+
+      r.setMode(annotationMode);
+    });
+  })();
+</script>
 {% endblock %}

@@ -3,8 +3,7 @@
 {% block scriptheader %}
 <link href="{% static 'recogito/recogito.min.css' %}" rel="stylesheet">
 <script type="text/javascript" src="{% static 'recogito/recogito.min.js' %}"></script>
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
 {% endblock scriptheader %}
 {% block content %}
 <div class="wrapper" id="index-wrapper">
@@ -35,6 +34,7 @@
 <!-- Wrapper end -->
 <script type="text/javascript">
   // An example annotation we'll add/remove via JavaScript
+  const csrftoken = Cookies.get('csrftoken');
   (function() {
     // Intialize Recogito
     var r = Recogito.init({
@@ -55,6 +55,27 @@
 
     r.on('createAnnotation', function(a) {
       console.log('created', a);
+      var re_id = a['id'].slice(1);
+      var new_annotation = {
+        re_id: re_id,
+        re_payload: a
+      }
+
+      fetch('/api/recogitoannotations/', {
+        method: 'POST', // or 'PUT'
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': csrftoken
+        },
+        body: JSON.stringify(new_annotation),
+      })
+      .then(response => response.json())
+      .then(new_annotation => {
+        console.log('Success:', new_annotation);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
     });
 
     r.on('updateAnnotation', function(annotation, previous) {

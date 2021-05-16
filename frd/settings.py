@@ -50,7 +50,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'crispy_forms',
     'archiv',
-    'django_recogito',
+    'recogito',
 ]
 
 MIDDLEWARE = [

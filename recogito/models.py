@@ -2,7 +2,7 @@ from django.db import models
 
 
 class RecogitoAnnotation(models.Model):
-    re_id = models.CharField(max_length=100)
+    re_id = models.CharField(max_length=100, primary_key=True)
     re_text = models.TextField(blank=True, null=True)
     re_start = models.IntegerField(blank=True, null=True)
     re_end = models.IntegerField(blank=True, null=True)

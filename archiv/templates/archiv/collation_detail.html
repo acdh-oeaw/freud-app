@@ -12,10 +12,15 @@
       </ol>
     </nav>
     <h1>Kollation von: <a href="{{ object.work.get_absolute_url }}">{{ object.work }}</a></h1>
-    <h3><a href="{% url 'collate_collation' pk=object.id %}">collate</a></h3>
+    
     <ul>
       {% for x in object.manifestation.all %}
-      <li>{{ x }}</li>
+      <li>
+        <a href="{{x.get_absolute_id }}">{{ x }}</a>
+         <a href="https://www.freud-edition.net{{x.drupal_json.data.attributes.path.alias }}" target="_blank">
+          <i data-feather="external-link"></i>
+        <a>
+      </li>
       {% endfor %}
     </ul>
     {% for x in object.frdcollationsample_set.all %}
@@ -23,6 +28,7 @@
       {{ x.data_html|safe }}
     </div>
     {% endfor %}
+    <a href="{% url 'collate_collation' pk=object.id %}" class="btn btn-primary" href="#" role="button">create/update collation</a>
   </div>
   <!-- Container end -->
 </div>

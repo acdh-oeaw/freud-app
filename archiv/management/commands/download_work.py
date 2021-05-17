@@ -65,4 +65,4 @@ class Command(BaseCommand):
                     fg='green'
                 )
             )
-            create_mans_from_folder(merged[0], frd_werk)
+            create_mans_from_folder(merged[0], frd_werk, auth_items)

@@ -60,13 +60,16 @@ def get_or_create_werk(drupal_work):
     return frd_work
 
 
-def create_mans_from_folder(man_dir, frd_work):
+def create_mans_from_folder(man_dir, frd_work, auth_items):
     glob_pattern = f"{man_dir}/*.xml"
     files = glob.glob(glob_pattern)
     manifestations = []
     for x in files:
         doc = TeiReader(x)
         man_id = doc.any_xpath('.//@xml:id')[0].split('__')[-1]
+        drupal_man_obj = frd.FrdManifestation(
+            auth_items=auth_items, manifestation_id=man_id
+        )
         man_slug = Path(x).stem
         frd_man, _ = FrdManifestation.objects.get_or_create(
             title_slug=man_slug,
@@ -75,6 +78,10 @@ def create_mans_from_folder(man_dir, frd_work):
         frd_man.tei_doc = doc.return_string()
         frd_man.drupal_hash = man_id
         frd_man.save_path = x
+        try:
+            frd_man.drupal_json = drupal_man_obj.manifestation
+        except KeyError:
+            pass
         frd_man.save()
         manifestations.append(frd_man)
     return manifestations
@@ -123,4 +130,4 @@ async def import_work(frd_werk):
             fg='green'
         )
     )
-    create_mans_from_folder(merged[0], frd_werk)
+    create_mans_from_folder(merged[0], frd_werk, auth_items)

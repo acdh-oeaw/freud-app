@@ -16,7 +16,7 @@
     <ul>
       {% for x in object.manifestation.all %}
       <li>
-        <a href="{{x.get_absolute_id }}">{{ x }}</a>
+        <a href="{{x.get_absolute_url }}">{{ x }}</a>
          <a href="https://www.freud-edition.net{{x.drupal_json.data.attributes.path.alias }}" target="_blank">
           <i data-feather="external-link"></i>
         <a>

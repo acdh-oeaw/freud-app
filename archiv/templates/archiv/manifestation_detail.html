@@ -65,6 +65,18 @@
 <script type="text/javascript">
   // An example annotation we'll add/remove via JavaScript
   const csrftoken = Cookies.get('csrftoken');
+  const target = {
+    re_app: 'archiv',
+    re_model: 'frdmanifestation',
+    re_field_name: 'tei_doc',
+    re_object_id: '{{ object.id }}',
+    format: 'json'
+  };
+  const baseUrl = window.location.origin;
+  const url = new URL("/api/recogitoannotations/", baseUrl)
+  url.search = new URLSearchParams(target)
+  fetchUrl = url.toString()
+  console.log(url.toString());
   (function() {
     // Intialize Recogito
     var r = Recogito.init({
@@ -78,6 +90,9 @@
       relationVocabulary: [ 'isRelated', 'isPartOf', 'isSameAs ']
     });
 
+    // r.loadAnnotations(fetchUrl)
+
+
 
     r.on('selectAnnotation', function(a) {
       console.log('selected', a);
@@ -88,8 +103,13 @@
       var re_id = a['id'].slice(1);
       var new_annotation = {
         re_id: re_id,
+      }
+      var merged = {
+        ...target,
+        ...new_annotation,
         re_payload: a
       }
+      console.log(merged);
 
       fetch('/api/recogitoannotations/', {
         method: 'POST', // or 'PUT'
@@ -97,11 +117,11 @@
           'Content-Type': 'application/json',
           'X-CSRFToken': csrftoken
         },
-        body: JSON.stringify(new_annotation),
+        body: JSON.stringify(merged),
       })
       .then(response => response.json())
-      .then(new_annotation => {
-        console.log('Success:', new_annotation);
+      .then(merged => {
+        console.log('Success:', merged);
       })
       .catch((error) => {
         console.error('Error:', error);
@@ -114,20 +134,20 @@
 
 
     // Switch annotation mode (annotation/relationships)
-    var annotationMode = 'ANNOTATION'; // or 'RELATIONS'
+    // var annotationMode = 'ANNOTATION'; // or 'RELATIONS'
 
-    var toggleModeBtn = document.getElementById('toggle-mode');
-    toggleModeBtn.addEventListener('click', function() {
-      if (annotationMode === 'ANNOTATION') {
-        toggleModeBtn.innerHTML = 'MODE: RELATIONS';
-        annotationMode = 'RELATIONS';
-      } else  {
-        toggleModeBtn.innerHTML = 'MODE: ANNOTATION';
-        annotationMode = 'ANNOTATION';
-      }
+    // var toggleModeBtn = document.getElementById('toggle-mode');
+    // toggleModeBtn.addEventListener('click', function() {
+    //   if (annotationMode === 'ANNOTATION') {
+    //     toggleModeBtn.innerHTML = 'MODE: RELATIONS';
+    //     annotationMode = 'RELATIONS';
+    //   } else  {
+    //     toggleModeBtn.innerHTML = 'MODE: ANNOTATION';
+    //     annotationMode = 'ANNOTATION';
+    //   }
 
-      r.setMode(annotationMode);
-    });
+    //   r.setMode(annotationMode);
+    // });
   })();
 </script>
 {% endblock %}

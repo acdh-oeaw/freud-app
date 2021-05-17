@@ -62,6 +62,9 @@ class FrdManifestation(models.Model):
     def get_absolute_url(self):
         return reverse('manifestation_detail', kwargs={'pk': self.id})
 
+    def get_xml(self):
+        return reverse('xml', kwargs={'pk': self.id})
+
     def __str__(self):
         return self.title_slug
 

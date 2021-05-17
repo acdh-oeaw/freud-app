@@ -1,8 +1,8 @@
 import requests
 import asyncio
 
-
-from django.http import HttpResponse
+from django.core.exceptions import ObjectDoesNotExist
+from django.http import HttpResponse, Http404
 from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView
@@ -40,6 +40,15 @@ class ManifestationDetailView(DetailView):
 
     model = FrdManifestation
     template_name = 'archiv/manifestation_detail.html'
+
+
+def manifestation_as_xml(request, pk):
+    try:
+        item = FrdManifestation.objects.get(id=pk)
+    except ObjectDoesNotExist:
+        raise Http404(f"A Manifestation with id: {pk} does not exist ")
+    data = item.tei_doc
+    return HttpResponse(data, content_type='text/xml')
 
 
 class CollationDetailView(DetailView):

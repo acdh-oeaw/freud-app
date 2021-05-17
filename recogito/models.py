@@ -9,6 +9,7 @@ class RecogitoAnnotation(models.Model):
     re_payload = models.JSONField(blank=True, null=True)
     re_app = models.CharField(max_length=100, blank=True, null=True)
     re_model = models.CharField(max_length=100, blank=True, null=True)
+    re_object_id = models.CharField(max_length=100, blank=True, null=True)
     re_field_name = models.CharField(max_length=100, blank=True, null=True)
 
     def __str__(self):

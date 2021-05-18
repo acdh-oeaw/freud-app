@@ -70,11 +70,11 @@
     re_model: 'frdmanifestation',
     re_field_name: 'tei_doc',
     re_object_id: '{{ object.id }}',
-    format: 'json'
   };
+  const fetch_params = {...target, ...{format: 'recogito'}};
   const baseUrl = window.location.origin;
   const url = new URL("/api/recogitoannotations/", baseUrl)
-  url.search = new URLSearchParams(target)
+  url.search = new URLSearchParams(fetch_params)
   fetchUrl = url.toString()
   console.log(url.toString());
   (function() {
@@ -90,7 +90,7 @@
       relationVocabulary: [ 'isRelated', 'isPartOf', 'isSameAs ']
     });
 
-    // r.loadAnnotations(fetchUrl)
+    r.loadAnnotations(fetchUrl);
 
 
 
@@ -109,7 +109,6 @@
         ...new_annotation,
         re_payload: a
       }
-      console.log(merged);
 
       fetch('/api/recogitoannotations/', {
         method: 'POST', // or 'PUT'

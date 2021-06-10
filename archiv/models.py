@@ -12,6 +12,11 @@ class FrdWork(models.Model):
         max_length=250,
         unique=True,
     )
+    title = models.CharField(
+        max_length=400,
+        blank=True,
+        null=True
+    )
     drupal_hash = models.CharField(
         max_length=250,
         unique=True,
@@ -24,7 +29,10 @@ class FrdWork(models.Model):
     )
 
     def __str__(self):
-        return self.title_slug
+        if self.title:
+            return self.title
+        else:
+            return self.title_slug
 
     def get_absolute_url(self):
         return reverse('work_detail', kwargs={'pk': self.id})

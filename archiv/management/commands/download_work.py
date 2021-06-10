@@ -25,8 +25,14 @@ class Command(BaseCommand):
             ids = [x.drupal_hash for x in FrdWork.objects.all()]
         else:
             ids = kwargs['work_ids']
-        print(ids)
+        failed = []
         for w in ids:
+            click.echo(
+                        click.style(
+                            f"processing ID {w}",
+                            fg='green'
+                        )
+                    )
             werk_obj = frd.FrdWerk(
                 auth_items=auth_items, werk_id=w
             )
@@ -54,15 +60,32 @@ class Command(BaseCommand):
                     fg='green'
                 )
             )
-            werk_save_path = frd_man.manifestation_save_location_folder
-            glob_pattern = f"{werk_save_path}/*.xml"
-            files = glob.glob(glob_pattern)
-            merged = create_united_files(glob_pattern)
-            click.echo(
-                click.style(
-                    f"finished: merged {len(files)} Documents from {glob_pattern}\n\
-                    into {len(merged[1].keys())} Documents to {merged[0]}",
-                    fg='green'
+            try:
+                werk_save_path = frd_man.manifestation_save_location_folder
+                glob_pattern = f"{werk_save_path}/*.xml"
+                files = glob.glob(glob_pattern)
+                merged = create_united_files(glob_pattern)
+                click.echo(
+                    click.style(
+                        f"finished: merged {len(files)} Documents from {glob_pattern}\n\
+                        into {len(merged[1].keys())} Documents to {merged[0]}",
+                        fg='green'
+                    )
                 )
-            )
-            create_mans_from_folder(merged[0], frd_werk, auth_items)
+                create_mans_from_folder(merged[0], frd_werk, auth_items)
+            except Exception as e:
+                click.echo(
+                    click.style(
+                        f"Failed to process work id {w} due to {e}",
+                        fg='red'
+                    )
+                )
+                failed.append(w)
+                continue
+        for fail in failed:
+            click.echo(
+                    click.style(
+                        f"Failed to process work id {fail}",
+                        fg='red'
+                    )
+                )

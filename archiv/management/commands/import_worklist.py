@@ -44,4 +44,5 @@ class Command(BaseCommand):
                 drupal_hash=wid
             )
             frd_work.drupal_json = x
+            frd_work.title = wtitle
             frd_work.save()

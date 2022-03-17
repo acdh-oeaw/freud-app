@@ -20,7 +20,7 @@ r = requests.get(
 
 class Command(BaseCommand):
 
-    help = "Creates work objects from durpal endpoint"
+    help = "Creates work objects from drupal endpoint"
 
     def handle(self, *args, **kwargs):
         click.echo(
